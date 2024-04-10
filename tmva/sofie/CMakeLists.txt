@@ -19,6 +19,8 @@ ROOT_STANDARD_LIBRARY_PACKAGE(ROOTTMVASofie
    TMVA/ROperator.hxx
    TMVA/ROperator_BasicUnary.hxx
    TMVA/ROperator_BasicBinary.hxx
+   TMVA/ROperator_BasicBitwise.hxx
+   TMVA/ROperator_Trigonometric.hxx
    TMVA/ROperator_BasicNary.hxx
    TMVA/ROperator_BatchNormalization.hxx
    TMVA/ROperator_Conv.hxx

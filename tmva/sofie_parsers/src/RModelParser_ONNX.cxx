@@ -27,6 +27,24 @@ extern ParserFuncSignature ParseSub;
 extern ParserFuncSignature ParseMul;
 extern ParserFuncSignature ParseDiv;
 extern ParserFuncSignature ParsePow;
+// Bitwise operators
+extern ParserFuncSignature ParseAnd;
+extern ParserFuncSignature ParseOr;
+extern ParserFuncSignature ParseXor;
+extern ParserFuncSignature ParseNor;
+// Trigonometric operators
+extern ParserFuncSignature ParseSin;
+extern ParserFuncSignature ParseSinh;
+extern ParserFuncSignature ParseAsin;
+extern ParserFuncSignature ParseAsinh;
+extern ParserFuncSignature ParseCos;
+extern ParserFuncSignature ParseCosh;
+extern ParserFuncSignature ParseAcos;
+extern ParserFuncSignature ParseAcosh;
+extern ParserFuncSignature ParseTan;  
+extern ParserFuncSignature ParseTanh;
+extern ParserFuncSignature ParseAtan;
+extern ParserFuncSignature ParseAtanh;
 // Nary operators
 extern ParserFuncSignature ParseMax;
 extern ParserFuncSignature ParseMin;
@@ -98,6 +116,24 @@ RModelParser_ONNX::RModelParser_ONNX() noexcept : fOperatorsMapImpl(std::make_un
    RegisterOperator("Mul", ParseMul);
    RegisterOperator("Div", ParseDiv);
    RegisterOperator("Pow", ParsePow);
+   // Bitwise operators
+   RegisterOperator("And", ParseAnd);
+   RegisterOperator("Or", ParseOr);
+   RegisterOperator("Xor", ParseXor);
+   RegisterOperator("Nor", ParseNor);
+   // Trigonometric operators
+   RegisterOperator("Sin", ParseSin);
+   RegisterOperator("Sinh", ParseSinh);
+   RegisterOperator("Asin", ParseAsin);
+   RegisterOperator("Asinh", ParseAsinh);
+   RegisterOperator("Cos", ParseCos);
+   RegisterOperator("Cosh", ParseCosh);
+   RegisterOperator("Acos", ParseAcos);
+   RegisterOperator("Acosh", ParseAcosh);
+   RegisterOperator("Tan", ParseTan);
+   RegisterOperator("Tanh", ParseTanh);
+   RegisterOperator("Atan", ParseAtan);
+   RegisterOperator("Atanh", ParseAtanh);
    // Nary operators
    RegisterOperator("Max", ParseMax);
    RegisterOperator("Min", ParseMin);

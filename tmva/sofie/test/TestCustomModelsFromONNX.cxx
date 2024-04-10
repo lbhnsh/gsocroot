@@ -477,6 +477,109 @@ TEST(ONNX, Neg)
          EXPECT_LE(std::abs(output[i] - correct[i]), TOLERANCE);
       }
    }
+TEST(ONNX, BitwiseAnd)
+{
+    constexpr float TOLERANCE = DEFAULT_TOLERANCE;
+
+    // Preparing the standard input
+    std::vector<float> input1({
+        1, 2
+    });
+    std::vector<float> input2({
+        0, 1
+    });
+    TMVA_SOFIE_BitwiseAnd::Session s("BitwiseAnd_FromONNX.dat");
+
+    std::vector<float> output = s.infer(input1.data(), input2.data());
+
+    // Checking output size
+    EXPECT_EQ(output.size(), sizeof(BitwiseAnd_ExpectedOutput::outputs) / sizeof(float));
+
+    float *correct = BitwiseAnd_ExpectedOutput::outputs;
+
+    // Checking every output value, one by one
+    for (size_t i = 0; i < output.size(); ++i) {
+        EXPECT_LE(std::abs(output[i] - correct[i]), TOLERANCE);
+    }
+}
+
+TEST(ONNX, BitwiseOr)
+{
+    constexpr float TOLERANCE = DEFAULT_TOLERANCE;
+
+    // Preparing the standard input
+    std::vector<float> input1({
+        1, 2
+    });
+    std::vector<float> input2({
+        0, 1
+    });
+    TMVA_SOFIE_BitwiseOr::Session s("BitwiseOr_FromONNX.dat");
+
+    std::vector<float> output = s.infer(input1.data(), input2.data());
+
+    // Checking output size
+    EXPECT_EQ(output.size(), sizeof(BitwiseOr_ExpectedOutput::outputs) / sizeof(float));
+
+    float *correct = BitwiseOr_ExpectedOutput::outputs;
+
+    // Checking every output value, one by one
+    for (size_t i = 0; i < output.size(); ++i) {
+        EXPECT_LE(std::abs(output[i] - correct[i]), TOLERANCE);
+    }
+}
+
+TEST(ONNX, BitwiseXor)
+{
+    constexpr float TOLERANCE = DEFAULT_TOLERANCE;
+
+    // Preparing the standard input
+    std::vector<float> input1({
+        1, 2
+    });
+    std::vector<float> input2({
+        0, 1
+    });
+    TMVA_SOFIE_BitwiseXor::Session s("BitwiseXor_FromONNX.dat");
+
+    std::vector<float> output = s.infer(input1.data(), input2.data());
+
+    // Checking output size
+    EXPECT_EQ(output.size(), sizeof(BitwiseXor_ExpectedOutput::outputs) / sizeof(float));
+
+    float *correct = BitwiseXor_ExpectedOutput::outputs;
+
+    // Checking every output value, one by one
+    for (size_t i = 0; i < output.size(); ++i) {
+        EXPECT_LE(std::abs(output[i] - correct[i]), TOLERANCE);
+    }
+}
+
+TEST(ONNX, BitwiseNor)
+{
+    constexpr float TOLERANCE = DEFAULT_TOLERANCE;
+
+    // Preparing the standard input
+    std::vector<float> input1({
+        1, 2
+    });
+    std::vector<float> input2({
+        0, 1
+    });
+    TMVA_SOFIE_BitwiseNor::Session s("BitwiseNor_FromONNX.dat");
+
+    std::vector<float> output = s.infer(input1.data(), input2.data());
+
+    // Checking output size
+    EXPECT_EQ(output.size(), sizeof(BitwiseNor_ExpectedOutput::outputs) / sizeof(float));
+
+    float *correct = BitwiseNor_ExpectedOutput::outputs;
+
+    // Checking every output value, one by one
+    for (size_t i = 0; i < output.size(); ++i) {
+        EXPECT_LE(std::abs(output[i] - correct[i]), TOLERANCE);
+    }
+}
 
 TEST(ONNX, Elu)
    {
@@ -591,6 +694,289 @@ TEST(ONNX, LinearWithSelu)
    for (size_t i = 0; i < output.size(); ++i) {
       EXPECT_LE(std::abs(output[i] - correct[i]), TOLERANCE);
    }
+}
+TEST(ONNX, Sin)
+{
+    constexpr float TOLERANCE = DEFAULT_TOLERANCE;
+
+    // Preparing the random input
+    std::vector<float> input({
+        -0.3896, -0.3521,  0.0363,  1.0962,  0.5085, -0.8523, -0.6766,  0.2421,
+        1.5971,  1.3873, -0.2112, -0.6895, -0.5069, -2.1395, -0.7087,  1.1658,
+        1.3493,  0.8132,  1.7156, -0.8637, -0.1971,  0.0411, -0.5662, -0.2516
+    });
+
+    TMVA_SOFIE_Sin::Session s("Sin_FromONNX.dat");
+
+    std::vector<float> output = s.infer(input.data());
+
+    // Checking output size
+    EXPECT_EQ(output.size(), sizeof(Sin_ExpectedOutput::outputs) / sizeof(float));
+
+    float *correct = Sin_ExpectedOutput::outputs;
+
+    // Checking every output value, one by one
+    for (size_t i = 0; i < output.size(); ++i) {
+        EXPECT_LE(std::abs(output[i] - correct[i]), TOLERANCE);
+    }
+}
+
+TEST(ONNX, Sinh)
+{
+    constexpr float TOLERANCE = DEFAULT_TOLERANCE;
+
+    // Preparing the random input
+    std::vector<float> input({
+        -0.3896, -0.3521,  0.0363,  1.0962,  0.5085, -0.8523, -0.6766,  0.2421,
+        1.5971,  1.3873, -0.2112, -0.6895, -0.5069, -2.1395, -0.7087,  1.1658,
+        1.3493,  0.8132,  1.7156, -0.8637, -0.1971,  0.0411, -0.5662, -0.2516
+    });
+
+    TMVA_SOFIE_Sinh::Session s("Sinh_FromONNX.dat");
+
+    std::vector<float> output = s.infer(input.data());
+
+    // Checking output size
+    EXPECT_EQ(output.size(), sizeof(Sinh_ExpectedOutput::outputs) / sizeof(float));
+
+    float *correct = Sinh_ExpectedOutput::outputs;
+
+    // Checking every output value, one by one
+    for (size_t i = 0; i < output.size(); ++i) {
+        EXPECT_LE(std::abs(output[i] - correct[i]), TOLERANCE);
+    }
+}
+
+TEST(ONNX, Asin)
+{
+    constexpr float TOLERANCE = DEFAULT_TOLERANCE;
+
+    // Preparing the random input
+    std::vector<float> input({
+        -0.3896, -0.3521,  0.0363,  1.0962,  0.5085, -0.8523, -0.6766,  0.2421,
+        1.5971,  1.3873, -0.2112, -0.6895, -0.5069, -2.1395, -0.7087,  1.1658,
+        1.3493,  0.8132,  1.7156, -0.8637, -0.1971,  0.0411, -0.5662, -0.2516
+    });
+
+    TMVA_SOFIE_Asin::Session s("Asin_FromONNX.dat");
+
+    std::vector<float> output = s.infer(input.data());
+
+    // Checking output size
+    EXPECT_EQ(output.size(), sizeof(Asin_ExpectedOutput::outputs) / sizeof(float));
+
+    float *correct = Asin_ExpectedOutput::outputs;
+
+    // Checking every output value, one by one
+    for (size_t i = 0; i < output.size(); ++i) {
+        EXPECT_LE(std::abs(output[i] - correct[i]), TOLERANCE);
+    }
+}
+
+TEST(ONNX, Asinh)
+{
+    constexpr float TOLERANCE = DEFAULT_TOLERANCE;
+
+    // Preparing the random input
+    std::vector<float> input({
+        -0.3896, -0.3521,  0.0363,  1.0962,  0.5085, -0.8523, -0.6766,  0.2421,
+        1.5971,  1.3873, -0.2112, -0.6895, -0.5069, -2.1395, -0.7087,  1.1658,
+        1.3493,  0.8132,  1.7156, -0.8637, -0.1971,  0.0411, -0.5662, -0.2516
+    });
+
+    TMVA_SOFIE_Asinh::Session s("Asinh_FromONNX.dat");
+
+    std::vector<float> output = s.infer(input.data());
+
+    // Checking output size
+    EXPECT_EQ(output.size(), sizeof(Asinh_ExpectedOutput::outputs) / sizeof(float));
+
+    float *correct = Asinh_ExpectedOutput::outputs;
+
+    // Checking every output value, one by one
+    for (size_t i = 0; i < output.size(); ++i) {
+        EXPECT_LE(std::abs(output[i] - correct[i]), TOLERANCE);
+    }
+}
+
+TEST(ONNX, Cos)
+{
+    constexpr float TOLERANCE = DEFAULT_TOLERANCE;
+
+    // Preparing the random input
+    std::vector<float> input({
+        -0.3896, -0.3521,  0.0363,  1.0962,  0.5085, -0.8523, -0.6766,  0.2421,
+        1.5971,  1.3873, -0.2112, -0.6895, -0.5069, -2.1395, -0.7087,  1.1658,
+        1.3493,  0.8132,  1.7156, -0.8637, -0.1971,  0.0411, -0.5662, -0.2516
+    });
+
+    TMVA_SOFIE_Cos::Session s("Cos_FromONNX.dat");
+
+    std::vector<float> output = s.infer(input.data());
+
+    // Checking output size
+    EXPECT_EQ(output.size(), sizeof(Cos_ExpectedOutput::outputs) / sizeof(float));
+
+    float *correct = Cos_ExpectedOutput::outputs;
+
+    // Checking every output value, one by one
+    for (size_t i = 0; i < output.size(); ++i) {
+        EXPECT_LE(std::abs(output[i] - correct[i]), TOLERANCE);
+    }
+}
+
+TEST(ONNX, Cosh)
+{
+    constexpr float TOLERANCE = DEFAULT_TOLERANCE;
+
+    // Preparing the random input
+    std::vector<float> input({
+        -0.3896, -0.3521,  0.0363,  1.0962,  0.5085, -0.8523, -0.6766,  0.2421,
+        1.5971,  1.3873, -0.2112, -0.6895, -0.5069, -2.1395, -0.7087,  1.1658,
+        1.3493,  0.8132,  1.7156, -0.8637, -0.1971,  0.0411, -0.5662, -0.2516
+    });
+
+    TMVA_SOFIE_Cosh::Session s("Cosh_FromONNX.dat");
+
+    std::vector<float> output = s.infer(input.data());
+
+    // Checking output size
+    EXPECT_EQ(output.size(), sizeof(Cosh_ExpectedOutput::outputs) / sizeof(float));
+
+    float *correct = Cosh_ExpectedOutput::outputs;
+
+    // Checking every output value, one by one
+    for (size_t i = 0; i < output.size(); ++i) {
+        EXPECT_LE(std::abs(output[i] - correct[i]), TOLERANCE);
+    }
+}
+
+TEST(ONNX, Acos)
+{
+    constexpr float TOLERANCE = DEFAULT_TOLERANCE;
+
+    // Preparing the random input
+    std::vector<float> input({
+        -0.3896, -0.3521,  0.0363,  1.0962,  0.5085, -0.8523, -0.6766,  0.2421,
+        1.5971,  1.3873, -0.2112, -0.6895, -0.5069, -2.1395, -0.7087,  1.1658,
+        1.3493,  0.8132,  1.7156, -0.8637, -0.1971,  0.0411, -0.5662, -0.2516
+    });
+
+    TMVA_SOFIE_Acos::Session s("Acos_FromONNX.dat");
+
+    std::vector<float> output = s.infer(input.data());
+
+    // Checking output size
+    EXPECT_EQ(output.size(), sizeof(Acos_ExpectedOutput::outputs) / sizeof(float));
+
+    float *correct = Acos_ExpectedOutput::outputs;
+
+    // Checking every output value, one by one
+    for (size_t i = 0; i < output.size(); ++i) {
+        EXPECT_LE(std::abs(output[i] - correct[i]), TOLERANCE);
+    }
+}
+
+TEST(ONNX, Acosh)
+{
+    constexpr float TOLERANCE = DEFAULT_TOLERANCE;
+
+    // Preparing the random input
+    std::vector<float> input({
+        1.1, 1.5, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0
+    });
+
+    TMVA_SOFIE_Acosh::Session s("Acosh_FromONNX.dat");
+
+    std::vector<float> output = s.infer(input.data());
+
+    // Checking output size
+    EXPECT_EQ(output.size(), sizeof(Acosh_ExpectedOutput::outputs) / sizeof(float));
+
+    float *correct = Acosh_ExpectedOutput::outputs;
+
+    // Checking every output value, one by one
+    for (size_t i = 0; i < output.size(); ++i) {
+        EXPECT_LE(std::abs(output[i] - correct[i]), TOLERANCE);
+    }
+}
+
+TEST(ONNX, Tan)
+{
+    constexpr float TOLERANCE = DEFAULT_TOLERANCE;
+
+    // Preparing the random input
+    std::vector<float> input({
+        -0.3896, -0.3521,  0.0363,  1.0962,  0.5085, -0.8523, -0.6766,  0.2421,
+        1.5971,  1.3873, -0.2112, -0.6895, -0.5069, -2.1395, -0.7087,  1.1658,
+        1.3493,  0.8132,  1.7156, -0.8637, -0.1971,  0.0411, -0.5662, -0.2516
+    });
+
+    TMVA_SOFIE_Tan::Session s("Tan_FromONNX.dat");
+
+    std::vector<float> output = s.infer(input.data());
+
+    // Checking output size
+    EXPECT_EQ(output.size(), sizeof(Tan_ExpectedOutput::outputs) / sizeof(float));
+
+    float *correct = Tan_ExpectedOutput::outputs;
+
+    // Checking every output value, one by one
+    for (size_t i = 0; i < output.size(); ++i) {
+        EXPECT_LE(std::abs(output[i] - correct[i]), TOLERANCE);
+    }
+}
+
+TEST(ONNX, Atan)
+{
+    constexpr float TOLERANCE = DEFAULT_TOLERANCE;
+
+    // Preparing the random input
+    std::vector<float> input({
+        -1.5574, -1.5208,  0.0362,  0.8714,  0.4636, -1.1111, -0.7854,  0.2290,
+         1.2622,  1.1659, -0.2085, -0.6676, -0.5003, -1.2389, -0.6747,  0.8901,
+         1.2623,  0.6747,  1.5708, -0.6836, -0.1963,  0.0410, -0.5317, -0.2491
+    });
+
+    TMVA_SOFIE_Atan::Session s("Atan_FromONNX.dat");
+
+    std::vector<float> output = s.infer(input.data());
+
+    // Checking output size
+    EXPECT_EQ(output.size(), sizeof(Atan_ExpectedOutput::outputs) / sizeof(float));
+
+    float *correct = Atan_ExpectedOutput::outputs;
+
+    // Checking every output value, one by one
+    for (size_t i = 0; i < output.size(); ++i) {
+        EXPECT_LE(std::abs(output[i] - correct[i]), TOLERANCE);
+    }
+}
+
+TEST(ONNX, Atanh)
+{
+    constexpr float TOLERANCE = DEFAULT_TOLERANCE;
+
+    // Preparing the random input
+    std::vector<float> input({
+        -0.7000, -0.6000,  0.1000,  0.8000,  0.4000, -0.9000, -0.5000,  0.2000,
+         0.9000,  0.7000, -0.2000, -0.8000, -0.4000, -0.9999, -0.9000,  0.6000,
+         0.8000,  0.5000,  1.0000, -0.9000, -0.1000,  0.2000, -0.4000, -0.3000
+    });
+
+    TMVA_SOFIE_Atanh::Session s("Atanh_FromONNX.dat");
+
+    std::vector<float> output = s.infer(input.data());
+
+    // Checking output size
+    EXPECT_EQ(output.size(), sizeof(Atanh_ExpectedOutput::outputs) / sizeof(float));
+
+    float *correct = Atanh_ExpectedOutput::outputs;
+
+    // Checking every output value, one by one
+    for (size_t i = 0; i < output.size(); ++i) {
+        EXPECT_LE(std::abs(output[i] - correct[i]), TOLERANCE);
+    }
 }
 
 TEST(ONNX, Tanh)
