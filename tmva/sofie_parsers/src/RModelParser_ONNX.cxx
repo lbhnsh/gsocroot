@@ -42,7 +42,7 @@ extern ParserFuncSignature ParseCosh;
 extern ParserFuncSignature ParseAcos;
 extern ParserFuncSignature ParseAcosh;
 extern ParserFuncSignature ParseTan;  
-extern ParserFuncSignature ParseTanh;
+// extern ParserFuncSignature ParseTanh;
 extern ParserFuncSignature ParseAtan;
 extern ParserFuncSignature ParseAtanh;
 // Nary operators
@@ -131,7 +131,7 @@ RModelParser_ONNX::RModelParser_ONNX() noexcept : fOperatorsMapImpl(std::make_un
    RegisterOperator("Acos", ParseAcos);
    RegisterOperator("Acosh", ParseAcosh);
    RegisterOperator("Tan", ParseTan);
-   RegisterOperator("Tanh", ParseTanh);
+   // RegisterOperator("Tanh", ParseTanh);
    RegisterOperator("Atan", ParseAtan);
    RegisterOperator("Atanh", ParseAtanh);
    // Nary operators

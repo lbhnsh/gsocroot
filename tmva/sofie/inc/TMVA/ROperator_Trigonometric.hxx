@@ -13,7 +13,7 @@ namespace SOFIE{
 
 enum ETrigonometricOperator { Sin, Sinh, Asin, Asinh, Cos, Cosh, Acos, Acosh, Tan, Tanh, Atan, Atanh };
 
-template <typename T, EBasicTrigonometricOperator Op1>
+template <typename T, ETrigonometricOperator Op1>
 struct TrigonometricOperatorTrait {};
 
 template <typename T>
@@ -97,8 +97,8 @@ private:
    std::vector<size_t> fShape;
 
 public:
-   ROperator_Tanh(){}
-   ROperator_Tanh(std::string nameX, std::string nameY):
+   ROperator_Trigonometric(){}
+   ROperator_Trigonometric(std::string nameX, std::string nameY):
       fNX(UTILITY::Clean_name(nameX)), fNY(UTILITY::Clean_name(nameY)){}
 
    std::vector<ETensorType> TypeInference(std::vector<ETensorType> input){
@@ -116,7 +116,7 @@ public:
         throw std::runtime_error(std::string("TMVA SOFIE Trigonometric Op Input Tensor ") + fNX + " is not found in model");
       }
       fShape = model.GetTensorShape(fNX);
-      model.AddIntediateTensor(fNY, model.GetTensorType(fNX), fShape);
+      model.AddIntermediateTensor(fNY, model.GetTensorType(fNX), fShape);
 
    }
 

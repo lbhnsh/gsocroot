@@ -6,7 +6,7 @@ namespace TMVA {
 namespace Experimental {
 namespace SOFIE {
 
-template <EBasicBinaryOperator Op>
+template <ETrigonometricOperator Op>
 std::unique_ptr<ROperator> ParseTrigonometric(RModelParser_ONNX &parser, const onnx::NodeProto &nodeproto) {
    ETensorType input_type;
 

@@ -45,6 +45,8 @@ class ROperator_Bitwise final : public ROperator {
 private:
    std::string fNA;
    std::string fNB;
+   std::string fNBroadcadstedA;
+   std::string fNBroadcadstedB;
    std::string fNY;
 
    std::vector<size_t> fShapeA;
@@ -129,6 +131,10 @@ public:
          throw std::runtime_error("TMVA SOFIE Binary Op called to Generate without being initialized first");
       }
       std::stringstream out;
+
+      out << SP << "\n//------ " << BitwiseOperatorTrait<T, Op>::Name() << "\n";
+      size_t length = ConvertShapeToLength(fShapeY);
+      
       // Broadcast A if it's uninitialized
       if (!fNBroadcadstedA.empty()) {
          out << SP << "// Broadcasting uninitialized tensor " << fNA << "\n";
@@ -150,8 +156,6 @@ public:
       const std::string& nameA = fNBroadcadstedA.empty()? fNA : fNBroadcadstedA;
       const std::string& nameB = fNBroadcadstedB.empty()? fNB : fNBroadcadstedB;
 
-      out << SP << "\n//------ " << BitwiseOperatorTrait<T, Op>::Name() << "\n";
-      size_t length = ConvertShapeToLength(fShapeY);
 
       out << SP << "for (size_t id = 0; id < " << length << " ; id++){\n";
       out << SP << SP << "tensor_" << fNY << "[id] = "
