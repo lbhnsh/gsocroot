@@ -1,5 +1,5 @@
 #include "TMVA/RModelParser_ONNX.hxx"
-#include "TMVA/ROperator_Bitwise.hxx"
+#include "TMVA/ROperator_BasicBitwise.hxx"
 #include "onnx_proto3.pb.h"
 
 namespace TMVA {

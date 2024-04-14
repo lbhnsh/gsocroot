@@ -70,11 +70,11 @@ struct TrigonometricOperatorTrait<T, Tan> {
   static std::string Op(const std::string t) { return "std::tan(" + t + ")"; }
 };
 
-template <typename T>
-struct TrigonometricOperatorTrait<T, Tanh> {
-  static const std::string Name() { return "Tanh"; }
-  static std::string Op(const std::string t) { return "std::tanh(" + t + ")"; }
-};
+// template <typename T>
+// struct TrigonometricOperatorTrait<T, Tanh> {
+//   static const std::string Name() { return "Tanh"; }
+//   static std::string Op(const std::string t) { return "std::tanh(" + t + ")"; }
+// };
 
 template <typename T>
 struct TrigonometricOperatorTrait<T, Atan> {

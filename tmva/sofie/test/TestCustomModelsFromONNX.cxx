@@ -24,6 +24,54 @@
 #include "Div_FromONNX.hxx"
 #include "input_models/references/Div.ref.hxx"
 
+#include "And_FromONNX.hxx"
+#include "input_models/references/And.ref.hxx"
+
+#include "Or_FromONNX.hxx"
+#include "input_models/references/Or.ref.hxx"
+
+#include "Xor_FromONNX.hxx"
+#include "input_models/references/Xor.ref.hxx"
+
+#include "Nor_FromONNX.hxx"
+#include "input_models/references/Nor.ref.hxx"
+
+#include "Sin_FromONNX.hxx"
+#include "input_models/references/Sin.ref.hxx"
+
+#include "Sinh_FromONNX.hxx"
+#include "input_models/references/Sinh.ref.hxx"
+
+#include "Asin_FromONNX.hxx"
+#include "input_models/references/Asin.ref.hxx"
+
+#include "Asinh_FromONNX.hxx"
+#include "input_models/references/Asinh.ref.hxx"
+
+#include "Cos_FromONNX.hxx"
+#include "input_models/references/Cos.ref.hxx"
+
+#include "Cosh_FromONNX.hxx"
+#include "input_models/references/Cosh.ref.hxx"
+
+#include "Acos_FromONNX.hxx"
+#include "input_models/references/Acos.ref.hxx"
+
+#include "Acosh_FromONNX.hxx"
+#include "input_models/references/Acosh.ref.hxx"
+
+#include "Tan_FromONNX.hxx"
+#include "input_models/references/Tan.ref.hxx"
+
+#include "Atan_FromONNX.hxx"
+#include "input_models/references/Atan.ref.hxx"
+
+#include "Atanh_FromONNX.hxx"
+#include "input_models/references/Atanh.ref.hxx"
+
+// #include "Tanh_FromONNX.hxx"
+// #include "input_models/references/Tanh.ref.hxx"
+
 #include "Cast_FromONNX.hxx"
 #include "input_models/references/Cast.ref.hxx"
 
@@ -477,7 +525,7 @@ TEST(ONNX, Neg)
          EXPECT_LE(std::abs(output[i] - correct[i]), TOLERANCE);
       }
    }
-TEST(ONNX, BitwiseAnd)
+TEST(ONNX, And)
 {
     constexpr float TOLERANCE = DEFAULT_TOLERANCE;
 
@@ -488,14 +536,14 @@ TEST(ONNX, BitwiseAnd)
     std::vector<float> input2({
         0, 1
     });
-    TMVA_SOFIE_BitwiseAnd::Session s("BitwiseAnd_FromONNX.dat");
+    TMVA_SOFIE_And::Session s("And_FromONNX.dat");
 
     std::vector<float> output = s.infer(input1.data(), input2.data());
 
     // Checking output size
-    EXPECT_EQ(output.size(), sizeof(BitwiseAnd_ExpectedOutput::outputs) / sizeof(float));
+    EXPECT_EQ(output.size(), sizeof(And_ExpectedOutput::outputs) / sizeof(float));
 
-    float *correct = BitwiseAnd_ExpectedOutput::outputs;
+    float *correct = And_ExpectedOutput::outputs;
 
     // Checking every output value, one by one
     for (size_t i = 0; i < output.size(); ++i) {
@@ -503,7 +551,7 @@ TEST(ONNX, BitwiseAnd)
     }
 }
 
-TEST(ONNX, BitwiseOr)
+TEST(ONNX, Or)
 {
     constexpr float TOLERANCE = DEFAULT_TOLERANCE;
 
@@ -514,14 +562,14 @@ TEST(ONNX, BitwiseOr)
     std::vector<float> input2({
         0, 1
     });
-    TMVA_SOFIE_BitwiseOr::Session s("BitwiseOr_FromONNX.dat");
+    TMVA_SOFIE_Or::Session s("Or_FromONNX.dat");
 
     std::vector<float> output = s.infer(input1.data(), input2.data());
 
     // Checking output size
-    EXPECT_EQ(output.size(), sizeof(BitwiseOr_ExpectedOutput::outputs) / sizeof(float));
+    EXPECT_EQ(output.size(), sizeof(Or_ExpectedOutput::outputs) / sizeof(float));
 
-    float *correct = BitwiseOr_ExpectedOutput::outputs;
+    float *correct = Or_ExpectedOutput::outputs;
 
     // Checking every output value, one by one
     for (size_t i = 0; i < output.size(); ++i) {
@@ -529,7 +577,7 @@ TEST(ONNX, BitwiseOr)
     }
 }
 
-TEST(ONNX, BitwiseXor)
+TEST(ONNX, Xor)
 {
     constexpr float TOLERANCE = DEFAULT_TOLERANCE;
 
@@ -540,14 +588,14 @@ TEST(ONNX, BitwiseXor)
     std::vector<float> input2({
         0, 1
     });
-    TMVA_SOFIE_BitwiseXor::Session s("BitwiseXor_FromONNX.dat");
+    TMVA_SOFIE_Xor::Session s("Xor_FromONNX.dat");
 
     std::vector<float> output = s.infer(input1.data(), input2.data());
 
     // Checking output size
-    EXPECT_EQ(output.size(), sizeof(BitwiseXor_ExpectedOutput::outputs) / sizeof(float));
+    EXPECT_EQ(output.size(), sizeof(Xor_ExpectedOutput::outputs) / sizeof(float));
 
-    float *correct = BitwiseXor_ExpectedOutput::outputs;
+    float *correct = Xor_ExpectedOutput::outputs;
 
     // Checking every output value, one by one
     for (size_t i = 0; i < output.size(); ++i) {
@@ -555,7 +603,7 @@ TEST(ONNX, BitwiseXor)
     }
 }
 
-TEST(ONNX, BitwiseNor)
+TEST(ONNX, Nor)
 {
     constexpr float TOLERANCE = DEFAULT_TOLERANCE;
 
@@ -566,14 +614,14 @@ TEST(ONNX, BitwiseNor)
     std::vector<float> input2({
         0, 1
     });
-    TMVA_SOFIE_BitwiseNor::Session s("BitwiseNor_FromONNX.dat");
+    TMVA_SOFIE_Nor::Session s("Nor_FromONNX.dat");
 
     std::vector<float> output = s.infer(input1.data(), input2.data());
 
     // Checking output size
-    EXPECT_EQ(output.size(), sizeof(BitwiseNor_ExpectedOutput::outputs) / sizeof(float));
+    EXPECT_EQ(output.size(), sizeof(Nor_ExpectedOutput::outputs) / sizeof(float));
 
-    float *correct = BitwiseNor_ExpectedOutput::outputs;
+    float *correct = Nor_ExpectedOutput::outputs;
 
     // Checking every output value, one by one
     for (size_t i = 0; i < output.size(); ++i) {

@@ -82,10 +82,10 @@ ParserFuncSignature ParseTan = [](RModelParser_ONNX &parser, const onnx::NodePro
   return ParseTrigonometric<ETrigonometricOperator::Tan>(parser, nodeproto);
 };
 
-// ParseTanh
-ParserFuncSignature ParseTanh = [](RModelParser_ONNX &parser, const onnx::NodeProto &nodeproto) {
-  return ParseTrigonometric<ETrigonometricOperator::Tanh>(parser, nodeproto);
-};
+// // ParseTanh
+// ParserFuncSignature ParseTanh = [](RModelParser_ONNX &parser, const onnx::NodeProto &nodeproto) {
+//   return ParseTrigonometric<ETrigonometricOperator::Tanh>(parser, nodeproto);
+// };
 
 // ParseAtan
 ParserFuncSignature ParseAtan = [](RModelParser_ONNX &parser, const onnx::NodeProto &nodeproto) {
