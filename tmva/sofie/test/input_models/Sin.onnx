@@ -1,12 +1,12 @@
-	pytorch2.2.1:]
+pytorch2.2.1:U
 
 onnx::Sin_01/Sin"Sin
-main_graphZ
-onnx::Sin_0
-
-
-b
-1
-
-
-B
+main_graphZ
+onnx::Sin_0
+
+
+b
+1
+
+
+B
