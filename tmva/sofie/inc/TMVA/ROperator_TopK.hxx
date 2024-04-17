@@ -53,11 +53,11 @@ public:
          throw std::runtime_error("TMVA SOFIE TopK Op Input Tensor is not found in model");
       }
       fShapeX = model.GetTensorShape(fNX); //  [ m x n x o x p ... ]
-      if(k>=fShapeX.size()){
+      if(k[0]>=fShapeX.size()){
          throw
-            std::runtime_error("TMVA::SOFIE ONNX TopK op k = "+ k +"value exeeds size of tensor " +fNX+" of size "+fShapeX.size+" .");
+            std::runtime_error("TMVA::SOFIE ONNX TopK op k = "+ std::to_string(k[0]) +"value exeeds size of tensor " +fNX+" of size "+fShapeX.size()+" .");
       }
-      fShapeY.push_back[2];
+      fShapeY.push_back(2);
       for (auto i : fShapeX)
          fShapeY.push_back(i); //  [ 2 x m x n x o x p ... ]
       size_t axis = fAttrAxis < 0 ? fShapeX.size() + fAttrAxis : fAttrAxis;
@@ -85,7 +85,7 @@ public:
       for (size_t i = 1; i < size; ++i) {
          std::string ss;
          ss = "i_" + std::to_string(i);
-         id.push_back(ss.str());
+         id.push_back(ss);
       }
 
       int dim = 0;
@@ -133,7 +133,7 @@ public:
       for (size_t i = 0; i < size - 1; i++)
          out << SP;
       std::string itr = (id[size - 1]);
-      out << "for(int " << itr << "=0;" << itr << "<" << k << ";" << itr << "++) {\n";
+      out << "for(int " << itr << "=0;" << itr << "<" << std::to_string(k[0]) << ";" << itr << "++) {\n";
       for (size_t i = 0; i < size; i++)
          out << SP;
       out << "tensor_" << fNY << "[0]" << indexes << " = elements[" << itr << "].first;\n";
