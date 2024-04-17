@@ -63,14 +63,14 @@
 #include "Tan_FromONNX.hxx"
 #include "input_models/references/Tan.ref.hxx"
 
-// #include "Atan_FromONNX.hxx"
-// #include "input_models/references/Atan.ref.hxx"
+#include "Atan_FromONNX.hxx"
+#include "input_models/references/Atan.ref.hxx"
 
 // #include "Atanh_FromONNX.hxx"
 // #include "input_models/references/Atanh.ref.hxx"
 
-#include "Tanh_FromONNX.hxx"
-#include "input_models/references/Tanh.ref.hxx"
+// #include "Tanh_FromONNX.hxx"
+// #include "input_models/references/Tanh.ref.hxx"
 
 #include "Cast_FromONNX.hxx"
 #include "input_models/references/Cast.ref.hxx"
@@ -801,9 +801,9 @@ TEST(ONNX, Asin)
 
     // Preparing the random input
     std::vector<float> input({
-        -0.3896, -0.3521,  0.0363,  1.0962,  0.5085, -0.8523, -0.6766,  0.2421,
-        1.5971,  1.3873, -0.2112, -0.6895, -0.5069, -2.1395, -0.7087,  1.1658,
-        1.3493,  0.8132,  1.7156, -0.8637, -0.1971,  0.0411, -0.5662, -0.2516
+        -0.3896, -0.3521,  0.0363,  0.0962,  0.5085, -0.8523, -0.6766,  0.2421,
+        0.5971,  0.3873, -0.2112, -0.6895, -0.5069, -0.1395, -0.7087,  0.1658,
+        0.3493,  0.8132,  0.7156, -0.8637, -0.1971,  0.0411, -0.5662, -0.2516
     });
 
     TMVA_SOFIE_Asin::Session s("Asin_FromONNX.dat");
