@@ -17,6 +17,8 @@ ParserFuncSignature ParseTopK = [](RModelParser_ONNX &parser, const onnx::NodePr
                                " but its type is not yet registered");
    }
    auto k=nodeproto.input(1);
+   std::vector<int> kElem;
+   kElem.push_back(std::stoi(k));
 
    std::unique_ptr<ROperator> op;
 
@@ -35,7 +37,7 @@ ParserFuncSignature ParseTopK = [](RModelParser_ONNX &parser, const onnx::NodePr
          attr_sorted = nodeproto.attribute(i).i();
    }
 
-   op.reset(new ROperator_TopK(attr_axis, attr_largest, attr_sorted, input_name, output_name));
+   op.reset(new ROperator_TopK<float>(attr_axis, attr_largest, attr_sorted, kElem, input_name, output_name));
 
    if (!parser.IsRegisteredTensorType(output_name)) {
       parser.RegisterTensorType(output_name, input_type);

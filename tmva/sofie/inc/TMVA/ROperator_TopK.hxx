@@ -15,24 +15,24 @@ template <typename T>
 class ROperator_TopK final : public ROperator {
 
 private:
-   int64_t fAttrAxis;
-   int64_t fAttrLargest;
-   int64_t fAttrSorted;
+   int fAttrAxis;
+   int fAttrLargest;
+   int fAttrSorted;
 
+   std::vector<int> k;
    std::string fNX;
-   std::vector<size_t> k;
    std::string fNY;
    std::vector<size_t> fShapeX;
-
-   std::string fType;
    std::vector<size_t> fShapeY;
+   std::string fType;
 
 public:
    ROperator_TopK() {}
-   ROperator_TopK(int attr_axis, int attr_largest, int attr_sorted, std::string nameX, std::string nameY)
+   ROperator_TopK(int attr_axis, int attr_largest, int attr_sorted, std::vector<int>kElem, std::string nameX, std::string nameY)
       : fAttrAxis(attr_axis),
         fAttrLargest(attr_largest),
         fAttrSorted(attr_sorted),
+        k(kElem),
         fNX(UTILITY::Clean_name(nameX)),
         fNY(UTILITY::Clean_name(nameY))
    {
@@ -92,7 +92,7 @@ public:
       for (size_t a = 0; a < size; a++) {
          if (a == size - 1) {
             out << "std::vector<pair<" << fType << "," << fType << ">>elements;\n";
-            for (int i = 0; i < a; i++)
+            for (size_t i = 0; i < a; i++)
                out << SP;
          }
          out << "for(int " << id[a] << "=0;" << id[a] << " < "
@@ -144,7 +144,7 @@ public:
          out << SP;
       out << "}\n";
       for (size_t c = size - 1; c > 0; c--) {
-         for (size_t i = c - 2; i >= 0; i--)
+         for (size_t i = c - 2; i >-1; i--)
             out << SP;
          out << "}\n";
       }
