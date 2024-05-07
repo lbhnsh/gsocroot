@@ -36,6 +36,12 @@
 #include "Shape_FromONNX.hxx"
 #include "input_models/references/Shape.ref.hxx"
 
+#include "TopK_FromONNX.hxx"
+#include "input_models/references/TopK.ref.hxx"
+
+#include "Constant_FromONNX.hxx"
+#include "input_models/references/Constant.ref.hxx"
+
 #include "LinearWithLeakyRelu_FromONNX.hxx"
 #include "input_models/references/LinearWithLeakyRelu.ref.hxx"
 
@@ -494,6 +500,64 @@ TEST(ONNX, Elu)
       EXPECT_EQ(output.size(), sizeof(Elu_ExpectedOutput::outputs) / sizeof(float));
 
       float *correct = Elu_ExpectedOutput::outputs;
+
+      // Checking every output value, one by one
+      for (size_t i = 0; i < output.size(); ++i) {
+         EXPECT_LE(std::abs(output[i] - correct[i]), TOLERANCE);
+      }
+   }
+   
+TEST(ONNX, TopK)
+{
+   constexpr float TOLERANCE = DEFAULT_TOLERANCE;
+
+   // Preparing the random input
+   std::vector<float> input({
+      9.0, 8.0, 4.5, 1.7, 2.9, 3.2, 4, 2.6, 7.4
+   });
+
+   TMVA_SOFIE_Tanh::Session s("TopK_FromONNX.dat");
+
+   std::vector<float> output = s.infer(input.data());
+   std::vector<float> values = output[0];
+   std::vector<int> indexes = output[1];
+
+   // Checking output size
+   EXPECT_EQ(values.size(), sizeof(TopK_ExpectedOutput::outputs[0]) / sizeof(float));
+
+   float *correct_values = TopK_ExpectedOutput::outputs[0];
+
+   // Checking every output value, one by one
+   for (size_t i = 0; i < values.size(); ++i) {
+      EXPECT_LE(std::abs(values[i] - correct_values[i]), TOLERANCE);
+   }
+
+   EXPECT_EQ(values.size(), sizeof(TopK_ExpectedOutput::outputs[1]) / sizeof(float));
+
+   float *correct_indexes = TopK_ExpectedOutput::outputs[1];
+
+   // Checking every output value, one by one
+   for (size_t i = 0; i < indexes.size(); ++i) {
+      EXPECT_LE(std::abs(values[i] - correct_indexes[i]), TOLERANCE);
+   }
+}
+
+TEST(ONNX, Constant)
+   {
+      constexpr float TOLERANCE = DEFAULT_TOLERANCE;
+
+      // Preparing the standard input
+      std::vector<float> input({
+        1.0, -2.0, 3.0, 0.5, -1.0, 2.0
+      });
+
+      TMVA_SOFIE_Constant::Session s("Constant_FromONNX.dat");
+      std::vector<float> output = s.infer(input.data());
+
+      // Checking output size
+      EXPECT_EQ(output.size(), sizeof(Constant_ExpectedOutput::outputs) / sizeof(float));
+
+      float *correct = Constant_ExpectedOutput::outputs;
 
       // Checking every output value, one by one
       for (size_t i = 0; i < output.size(); ++i) {
