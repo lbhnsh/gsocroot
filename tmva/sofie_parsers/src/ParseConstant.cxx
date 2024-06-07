@@ -6,46 +6,79 @@ namespace TMVA {
 namespace Experimental {
 namespace SOFIE {
 
-// template<typename A>
+// same function used to parse Constant and ConstantOfShape
+
 ParserFuncSignature ParseConstant = [](RModelParser_ONNX &parser, const onnx::NodeProto &nodeproto) {
-   ETensorType input_type;
-// there is no input in the docs, only an attribute
-   auto input_name = nodeproto.input(0);
-   if (parser.IsRegisteredTensorType(input_name)) {
-      input_type = parser.GetTensorType(input_name);
-   } else {
-      throw std::runtime_error("TMVA::SOFIE ONNX Parser Constant op has input tensor" + input_name +
-                               " but its type is not yet registered");
-   }   
-   std::vector<float>attrInput={nodeproto.attribute(0).floats().begin(),nodeproto.attribute(0).floats().end()};
-   // auto name=nodeproto.attribute(0).name();
-   // A attrInput;
-   // if(name=="sparse_value")attrInput=nodeproto.attribute(0).i();
-   // else if(name=="value")attrInput=nodeproto.attribute(0).i();
-   // else if(name=="value_float")attrInput=nodeproto.attribute(0).i();
-   // else if(name=="value_floats")attrInput={nodeproto.attribute(0).floats().begin(), nodeproto.attribute(0).floats().end()}
-   // else if(name=="value_int")attrInput=nodeproto.attribute(0).i();
-   // else if(name=="value_ints")attrInput={nodeproto.attribute(0).ints().begin(), nodeproto.attribute(0).ints().end()};
-   // else if(name=="value_string")attrInput=nodeproto.attribute(0).i();
-   // else if(name=="value_strings")attrInput={nodeproto.attribute(0).strings().begin(), nodeproto.attribute(0).strings().end()};
+   std::string input_name;
+
+   auto ninputs = nodeproto.input_size();
+   if (ninputs > 0) { // case of ConstantOfShape
+      input_name = nodeproto.input(0);
+      if (!parser.IsRegisteredTensorType(input_name)) {
+         throw std::runtime_error("TMVA::SOFIE ONNX Parser ConstantOfShape op has input tensor" + input_name +
+                                  "  but its type is not yet registered");
+      }
+   }
 
    std::unique_ptr<ROperator> op;
+   std::string attr_type;
    std::string output_name = nodeproto.output(0);
+   ETensorType output_type = ETensorType::FLOAT;
 
-   switch (input_type) {
-   case ETensorType::FLOAT: op.reset(new ROperator_Constant<float>(attrInput, input_name, output_name)); break;
-   default:
-      throw std::runtime_error("TMVA::SOFIE - Unsupported - Operator Constant does not yet support input type " +
-                               std::to_string(static_cast<int>(input_type)));
-   }
+   for (int_t i = 0; i < nodeproto.attribute_size(); i++) {
+      std::string attribute_name = nodeproto.attribute(i).name();
 
-   if (!parser.IsRegisteredTensorType(output_name)) {
-      parser.RegisterTensorType(output_name, input_type);
-   }
+      // input tensor -> "value"
+      if (attribute_name == "value") {
+         const onnx::TensorProto &t = nodeproto.attribute(i).t();
+         output_type = static_cast<ETensorType>(t.data_type());
+         // std::cout << "found attribute value with type " << ConvertTypeToString(output_type) << "\n";
+         std::vector<std::size_t> shape;
+         std::size_t length = 1;
 
-   return op;
-};
+         for (int j = 0; j < t.dims_size(); j++) {
+            shape.push_back(t.dims(j));
+            length *= t.dims(j);
+         }
 
+         switch (output_type) {
+
+         case ETensorType::INT64: {
+            std::vector<int64_t> values(length);
+            // need to use raw_data() to get the tensor values
+            auto raw_data_ptr = reinterpret_cast<int64_t *>(const_cast<char *>(t.raw_data().c_str()));
+            std::memcpy(values.data(), raw_data_ptr, length * sizeof(int64_t));
+            op.reset(new ROperator_Constant<int64_t>("int64_t", values, shape, input_name, output_name));
+            break;
+         }
+
+         case ETensorType::FLOAT: {
+            std::vector<float> values(length);
+            auto raw_data_ptr = reinterpret_cast<float *>(const_cast<char *>(t.raw_data().c_str()));
+            std::memcpy(values.data(), raw_data_ptr, length * sizeof(float));
+            // for (size_t j = 0; j < values.size(); j++) std::cout << values[j] << "\n";
+            op.reset(new ROperator_Constant<float>("float", values, shape, input_name, output_name));
+            break;
+         }
+
+         default:
+            throw std::runtime_error("Data type in Constant op attribute " + ConvertTypeToString(output_type) +
+                                     " is not supported!\n");
+         }
+         break;
+      } else {
+         throw std::runtime_error("Attribute " + attribute_name + " in Constant op  is not supported!\n");
+      }
+
+      // op.reset(new ROperator_Constant(attr_type, nodeproto.input(0), output_name));
+
+      if (!parser.IsRegisteredTensorType(output_name)) {
+         parser.RegisterTensorType(output_name, output_type);
+      }
+
+      return op;
+   };
+}
 } // namespace SOFIE
 } // namespace Experimental
 } // namespace TMVA

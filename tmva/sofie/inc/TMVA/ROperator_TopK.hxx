@@ -34,9 +34,7 @@ public:
         fAttrSorted(attr_sorted),
         k(kElem),
         fNX(UTILITY::Clean_name(nameX)),
-        fNY(UTILITY::Clean_name(nameY))
-   {
-   }
+        fNY(UTILITY::Clean_name(nameY)){}
 
    std::vector<ETensorType> TypeInference(std::vector<ETensorType> input) { return input; }
 

@@ -46,6 +46,7 @@ extern ParserFuncSignature ParseReduceProd;
 extern ParserFuncSignature ParseBatchNormalization;
 extern ParserFuncSignature ParseTopK;
 extern ParserFuncSignature ParseConstant;
+extern ParserFuncSignature ParseConstantOfShape;
 extern ParserFuncSignature ParseTranspose;
 extern ParserFuncSignature ParseRelu;
 extern ParserFuncSignature ParseTanh;
@@ -118,7 +119,8 @@ RModelParser_ONNX::RModelParser_ONNX() noexcept : fOperatorsMapImpl(std::make_un
    // Others
    RegisterOperator("BatchNormalization", ParseBatchNormalization);
    RegisterOperator("TopK", ParseTopK);
-   RegisterOperator("TopK", ParseConstant);
+   RegisterOperator("Constant", ParseConstant);
+   RegisterOperator("ConstantOfShape", ParseConstantOfShape);
    RegisterOperator("Cast", ParseCast);
    RegisterOperator("Concat", ParseConcat);
    RegisterOperator("Conv", ParseConv);

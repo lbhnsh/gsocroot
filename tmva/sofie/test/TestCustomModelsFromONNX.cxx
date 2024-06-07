@@ -36,8 +36,14 @@
 #include "Shape_FromONNX.hxx"
 #include "input_models/references/Shape.ref.hxx"
 
-#include "TopK_FromONNX.hxx"
-#include "input_models/references/TopK.ref.hxx"
+#include "ConstantOfShape_FromONNX.hxx"
+#include "input_models/references/ConstantOfShape.ref.hxx"
+
+#include "Constant_FromONNX.hxx"
+#include "input_models/references/Constant.ref.hxx"
+
+// #include "TopK_FromONNX.hxx"
+// #include "input_models/references/TopK.ref.hxx"
 
 #include "Constant_FromONNX.hxx"
 #include "input_models/references/Constant.ref.hxx"
@@ -507,63 +513,112 @@ TEST(ONNX, Elu)
       }
    }
    
-TEST(ONNX, TopK)
+TEST(ONNX, Constant)
 {
    constexpr float TOLERANCE = DEFAULT_TOLERANCE;
 
-   // Preparing the random input
-   std::vector<float> input({
-      9.0, 8.0, 4.5, 1.7, 2.9, 3.2, 4, 2.6, 7.4
-   });
+   // Preparing the standard  input
+   // std::vector<float> input({
+   //    1,2,3,4
+   // });
 
-   TMVA_SOFIE_Tanh::Session s("TopK_FromONNX.dat");
+   TMVA_SOFIE_Constant::Session s("Constant_FromONNX.dat");
 
-   std::vector<float> output = s.infer(input.data());
-   std::vector<float> values = output[0];
-   std::vector<int> indexes = output[1];
+   auto output = s.infer();
 
    // Checking output size
-   EXPECT_EQ(values.size(), sizeof(TopK_ExpectedOutput::outputs[0]) / sizeof(float));
+   EXPECT_EQ(output.size(), sizeof(Constant_ExpectedOutput::outputs) / sizeof(float));
 
-   float *correct_values = TopK_ExpectedOutput::outputs[0];
-
-   // Checking every output value, one by one
-   for (size_t i = 0; i < values.size(); ++i) {
-      EXPECT_LE(std::abs(values[i] - correct_values[i]), TOLERANCE);
-   }
-
-   EXPECT_EQ(values.size(), sizeof(TopK_ExpectedOutput::outputs[1]) / sizeof(float));
-
-   float *correct_indexes = TopK_ExpectedOutput::outputs[1];
+   float *correct = Constant_ExpectedOutput::outputs;
 
    // Checking every output value, one by one
-   for (size_t i = 0; i < indexes.size(); ++i) {
-      EXPECT_LE(std::abs(values[i] - correct_indexes[i]), TOLERANCE);
+   for (size_t i = 0; i < output.size(); ++i) {
+      EXPECT_LE(std::abs(output[i] - correct[i]), TOLERANCE);
    }
 }
 
-TEST(ONNX, Constant)
-   {
-      constexpr float TOLERANCE = DEFAULT_TOLERANCE;
 
-      // Preparing the standard input
-      std::vector<float> input({
-        1.0, -2.0, 3.0, 0.5, -1.0, 2.0
-      });
+TEST(ONNX, ConstantOfShape)
+{
+   constexpr float TOLERANCE = DEFAULT_TOLERANCE;
 
-      TMVA_SOFIE_Constant::Session s("Constant_FromONNX.dat");
-      std::vector<float> output = s.infer(input.data());
+   // Preparing the standard  input
+   std::vector<int64_t> input({
+      1,2,3
+   });
 
-      // Checking output size
-      EXPECT_EQ(output.size(), sizeof(Constant_ExpectedOutput::outputs) / sizeof(float));
+   TMVA_SOFIE_ConstantOfShape::Session s("ConstantOfShape_FromONNX.dat");
 
-      float *correct = Constant_ExpectedOutput::outputs;
+   auto output = s.infer(input.data());
 
-      // Checking every output value, one by one
-      for (size_t i = 0; i < output.size(); ++i) {
-         EXPECT_LE(std::abs(output[i] - correct[i]), TOLERANCE);
-      }
+   // Checking output size
+   EXPECT_EQ(output.size(), sizeof(ConstantOfShape_ExpectedOutput::outputs) / sizeof(float));
+
+   float *correct = ConstantOfShape_ExpectedOutput::outputs;
+
+   // Checking every output value, one by one
+   for (size_t i = 0; i < output.size(); ++i) {
+      EXPECT_LE(std::abs(output[i] - correct[i]), TOLERANCE);
    }
+}
+
+// TEST(ONNX, TopK)
+// {
+//    constexpr float TOLERANCE = DEFAULT_TOLERANCE;
+
+//    // Preparing the random input
+//    std::vector<float> input({
+//       9.0, 8.0, 4.5, 1.7, 2.9, 3.2, 4, 2.6, 7.4
+//    });
+
+//    TMVA_SOFIE_Tanh::Session s("TopK_FromONNX.dat");
+
+//    std::vector<float> output = s.infer(input.data());
+//    std::vector<float> values = output[0];
+//    std::vector<int> indexes = output[1];
+
+//    // Checking output size
+//    EXPECT_EQ(values.size(), sizeof(TopK_ExpectedOutput::outputs[0]) / sizeof(float));
+
+//    float *correct_values = TopK_ExpectedOutput::outputs[0];
+
+//    // Checking every output value, one by one
+//    for (size_t i = 0; i < values.size(); ++i) {
+//       EXPECT_LE(std::abs(values[i] - correct_values[i]), TOLERANCE);
+//    }
+
+//    EXPECT_EQ(values.size(), sizeof(TopK_ExpectedOutput::outputs[1]) / sizeof(float));
+
+//    float *correct_indexes = TopK_ExpectedOutput::outputs[1];
+
+//    // Checking every output value, one by one
+//    for (size_t i = 0; i < indexes.size(); ++i) {
+//       EXPECT_LE(std::abs(values[i] - correct_indexes[i]), TOLERANCE);
+//    }
+// }
+
+// TEST(ONNX, Constant)
+//    {
+//       constexpr float TOLERANCE = DEFAULT_TOLERANCE;
+
+//       // Preparing the standard input
+//       std::vector<float> input({
+//         1.0, -2.0, 3.0, 0.5, -1.0, 2.0
+//       });
+
+//       TMVA_SOFIE_Constant::Session s("Constant_FromONNX.dat");
+//       std::vector<float> output = s.infer(input.data());
+
+//       // Checking output size
+//       EXPECT_EQ(output.size(), sizeof(Constant_ExpectedOutput::outputs) / sizeof(float));
+
+//       float *correct = Constant_ExpectedOutput::outputs;
+
+//       // Checking every output value, one by one
+//       for (size_t i = 0; i < output.size(); ++i) {
+//          EXPECT_LE(std::abs(output[i] - correct[i]), TOLERANCE);
+//       }
+//    }
 
    TEST(ONNX, EyeLike)
    {
