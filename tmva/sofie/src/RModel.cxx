@@ -54,7 +54,7 @@ RModel& RModel::operator=(RModel&& other) {
 }
 
 const std::vector<size_t>& RModel::GetTensorShape(std::string name) {
-    auto f = fReadyInputTensorInfos.find(name);
+        auto f = fReadyInputTensorInfos.find(name);
     if (f != fReadyInputTensorInfos.end()) {
         return f->second.shape;
     }
@@ -470,7 +470,7 @@ void RModel::GenerateOutput() {
       i_input++;
    }
 
-   fGC.pop_back(); // remove last ","
+   if (fInputTensorNames.size() > 0) fGC.pop_back();// remove last ","
    fGC += "){\n";
 
    for (size_t id = 0; id < fOperators.size(); id++) {

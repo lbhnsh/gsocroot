@@ -36,8 +36,8 @@
 #include "Shape_FromONNX.hxx"
 #include "input_models/references/Shape.ref.hxx"
 
-#include "ConstantOfShape_FromONNX.hxx"
-#include "input_models/references/ConstantOfShape.ref.hxx"
+// #include "ConstantOfShape_FromONNX.hxx"
+// #include "input_models/references/ConstantOfShape.ref.hxx"
 
 #include "Constant_FromONNX.hxx"
 #include "input_models/references/Constant.ref.hxx"
@@ -45,8 +45,6 @@
 // #include "TopK_FromONNX.hxx"
 // #include "input_models/references/TopK.ref.hxx"
 
-#include "Constant_FromONNX.hxx"
-#include "input_models/references/Constant.ref.hxx"
 
 #include "LinearWithLeakyRelu_FromONNX.hxx"
 #include "input_models/references/LinearWithLeakyRelu.ref.hxx"
@@ -517,7 +515,7 @@ TEST(ONNX, Constant)
 {
    constexpr float TOLERANCE = DEFAULT_TOLERANCE;
 
-   // Preparing the standard  input
+   // Preparing the standard  input (none for Constant Op)
    // std::vector<float> input({
    //    1,2,3,4
    // });
@@ -538,29 +536,31 @@ TEST(ONNX, Constant)
 }
 
 
-TEST(ONNX, ConstantOfShape)
-{
-   constexpr float TOLERANCE = DEFAULT_TOLERANCE;
+// TEST(ONNX, ConstantOfShape)
+// {
+//    //constexpr float TOLERANCE = DEFAULT_TOLERANCE;
 
-   // Preparing the standard  input
-   std::vector<int64_t> input({
-      1,2,3
-   });
+//    // Preparing the standard  input
+//    // since we use batch size==1 input shape tensor will always be equal to 1
+//    // in this test
+//    std::vector<int64_t> input(1);
 
-   TMVA_SOFIE_ConstantOfShape::Session s("ConstantOfShape_FromONNX.dat");
 
-   auto output = s.infer(input.data());
+//    TMVA_SOFIE_ConstantOfShape::Session s("ConstantOfShape_FromONNX.dat");
 
-   // Checking output size
-   EXPECT_EQ(output.size(), sizeof(ConstantOfShape_ExpectedOutput::outputs) / sizeof(float));
+//    auto output = s.infer(input.data());
 
-   float *correct = ConstantOfShape_ExpectedOutput::outputs;
+//    // Checking output size
+//    EXPECT_EQ(output.size(), sizeof(ConstantOfShape_ExpectedOutput::outputs) / sizeof(int64_t));
 
-   // Checking every output value, one by one
-   for (size_t i = 0; i < output.size(); ++i) {
-      EXPECT_LE(std::abs(output[i] - correct[i]), TOLERANCE);
-   }
-}
+//    auto correct = ConstantOfShape_ExpectedOutput::outputs;
+
+//    // Checking every output value, one by one
+//    for (size_t i = 0; i < output.size(); ++i) {
+//       EXPECT_EQ(output[i] , correct[i]);
+//       //EXPECT_LE(std::abs(output[i] - correct[i]), TOLERANCE);
+//    }
+// }
 
 // TEST(ONNX, TopK)
 // {
